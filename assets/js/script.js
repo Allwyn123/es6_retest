@@ -226,3 +226,20 @@ let reset_btn = document.querySelector(".reset_btn");
 reset_btn.addEventListener("click", () => {
     location.reload();
 });
+
+/*--------- timer start --------- */
+let start_timer = () => {
+    const timer_box = document.querySelector(".timer_box");
+    timer_box.innerHTML = "";
+    timer_box.classList.add("display");
+    let count = 0;
+    setInterval(() => {
+        count++;
+        timer_box.innerHTML = count;
+    }, 1000);
+
+    setTimeout(() => {
+        submit_func();
+    }, 5 * 60 * 1000);
+}  
+/*--------- timer end --------- */ 
