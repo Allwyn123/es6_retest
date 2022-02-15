@@ -193,3 +193,56 @@ li {
   display: inline-block;
   list-style-type: none;
 }
+
+/* ---------------------------------- */
+/* *********** Main code ************ */
+/* ---------------------------------- */
+
+.wrapper {
+  max-width: 1440px;
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.title {
+  margin-top: 60px;
+  color: #0059ff;
+  text-align: center;
+}
+
+.timer_box {
+  margin-top: 40px;
+  display: none;
+  position: absolute;
+  right: 20px;
+}
+
+.question_box {
+  margin-top: 50px;
+  display: none;
+}
+
+.start_btn {
+  margin-top: 40px;
+  padding: 10px 30px;
+  border: 1px solid #0059ff;
+  position: relative;
+  left: 50%;
+  background: #0059ff;
+  color: #fff;
+  font-size: 18px;
+  transform: translateX(-50%);
+}
+
+.start_btn:hover {
+  margin-top: 40px;
+  padding: 10px 30px;
+  border: 1px solid #0059ff;
+  position: relative;
+  left: 50%;
+  background: #fff;
+  color: #0059ff;
+  font-size: 18px;
+  transform: translateX(-50%);
+}
