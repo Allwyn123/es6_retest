@@ -200,3 +200,29 @@ let display_button = (q) => {
         }
     }
 }
+
+/*--------- submit start --------- */
+let submit_func = () => {
+    const result_box = document.querySelector(".result_box");
+    let res_score = 0;
+    for(let i = 0; i < question_obj.length; i++) {
+        for(let j = 0; j < answer_obj.length; j++) {
+            if(i == answer_obj[j].q_nos-1) {
+                if(question_obj[i].answer == answer_obj[j].ans) {
+                    res_score += 1;
+                }
+            }
+        }
+    }
+    result_box.classList.add("flex");
+    question_panel.classList.add("hide");
+    let res_display = document.querySelector(".res_display");
+    res_display.innerHTML = "";
+    res_display.innerHTML = res_score*10+"%";
+}
+/*--------- submit end --------- */
+
+let reset_btn = document.querySelector(".reset_btn");
+reset_btn.addEventListener("click", () => {
+    location.reload();
+});
