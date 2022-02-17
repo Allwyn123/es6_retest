@@ -207,18 +207,77 @@ reset_btn.addEventListener("click", () => {
 });
 
 /*--------- timer start --------- */
+const timer_box = document.querySelector(".timer_box");
+let timer_interval;
 let start_timer = () => {
-    const timer_box = document.querySelector(".timer_box");
     timer_box.innerHTML = "";
     timer_box.classList.add("display");
     let count = 0;
-    setInterval(() => {
-        count++;
-        timer_box.innerHTML = count;
+    let hour = 0;
+    let min = 0;
+    let sec = 0;
+
+    timer_interval = setInterval(() => {
+        time_cal();
     }, 1000);
+    timer_interval;
+    
+    
+    let time_cal = () => {
+        if(hour < 24) {
+            if(min < 59) {
+                if(sec >= 59) {
+                    count = 0;
+                    sec = 0;
+                    min++;
+                }
+                else if(sec < 59) {
+                    count++;
+                    sec = count;
+                }
+            }
+            else if(min >= 59) {
+                min++;
+            }
+        }
+        else {
+            hour = 0;
+        }
+
+        // check single digit
+        let hh;
+        let mm;
+        let ss;
+        if(hour < 10) { 
+            hh = `0${hour}`;
+        } else {
+            hh = hour;
+        }
+        
+        if(min < 10) {
+            mm = `0${min}`;
+        } else {
+            mm = min;
+        }
+
+        if(sec < 10) {
+            ss = `0${sec}`;
+        } else {
+            ss = sec;
+        }
+
+        timer_box.innerHTML = `${hh}h:${mm}m:${ss}s`;
+    }
+
 
     setTimeout(() => {
         submit_func();
+        stop_timer();
     }, 5 * 60 * 1000);
 }  
+
+let stop_timer = () => {
+    clearInterval(timer_interval);
+    timer_box.classList.remove("display");
+}
 /*--------- timer end --------- */ 
