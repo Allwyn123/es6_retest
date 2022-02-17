@@ -56,93 +56,69 @@ const question_panel = document.querySelector(".question_panel");
 start_btn.addEventListener("click", () => {
     start_btn.classList.add("hide");
     start_timer();
-    question_func(0);
+    question_func();
 });
 
-let question_func = (q) => {
-    question_box.innerHTML = "";
-    question_box.classList.add("display");
+let question_func = (q = 0) => {
+    let create_question = (q) => {
+        question_box.innerHTML = "";
+        question_box.classList.add("display");
+        
+        function set_attribute(element, attribute) {
+            Object.keys(attribute).forEach(e => {
+                element.setAttribute(e, attribute[e]);
+            });
+        }
+        
+        let p_element = document.createElement("p");
+        p_element.innerHTML = `${q+1}. ${question_obj[q].question}?`;
+        let form_element = document.createElement("form");
+        let input_attribute = "";
+        
+        let create_option_element = (nos) => {
+            let option_element = document.createElement("input");
+            let option_label = document.createElement("label");
+            option_label.setAttribute("for", `option${nos+1}`);
+            option_label.innerHTML = question_obj[q].option[nos];
+            input_attribute = {
+                type: "radio",
+                name: "choice",
+                id: `option${nos+1}`,
+                class: "option",
+                value: question_obj[q].option[nos],
+            }
+            set_attribute(option_element, input_attribute);
+
+            form_element.append(option_element);
+            form_element.append(option_label);
+        }
+
+        for(let i = 0; i < question_obj[q].option.length; i++) {
+            create_option_element(i);
+        }
+
+        question_box.appendChild(p_element);
+        question_box.appendChild(form_element);
     
-    function set_attribute(element, attribute) {
-        Object.keys(attribute).forEach(e => {
-            element.setAttribute(e, attribute[e]);
-        });
+        display_button(q);
+        if(answer_obj != "") {
+            for(let i = 0; i < answer_obj.length; i++) {
+                if(answer_obj[i].q_nos == q+1) {
+                    let mcq_option = document.querySelectorAll(".option");
+                    mcq_option.forEach(e => {
+                        if(e.value == answer_obj[i].ans) {
+                            e.checked = true;
+                        }
+                    });
+                }
+            }
+        }
     }
-    
-    let p_element = document.createElement("p");
-    p_element.innerHTML = `${q+1}. ${question_obj[q].question}?`;
-    let form_element = document.createElement("form");
-    let input_attribute = "";
-    
-    let option1_element = document.createElement("input");
-    let option1_label = document.createElement("label");
-    option1_label.setAttribute("for", "option1");
-    option1_label.innerHTML = question_obj[q].option[0];
-    input_attribute = {
-        type: "radio",
-        name: "choice",
-        id: "option1",
-        class: "option",
-        value: question_obj[q].option[0],
-    }
-    set_attribute(option1_element, input_attribute);
-    
-
-    let option2_element = document.createElement("input");
-    let option2_label = document.createElement("label");
-    option2_label.setAttribute("for", "option2");
-    option2_label.innerHTML = question_obj[q].option[1];
-    input_attribute = {
-        type: "radio",
-        name: "choice",
-        id: "option2",
-        class: "option",
-        value: question_obj[q].option[1],
-    }
-    set_attribute(option2_element, input_attribute);
-
-    let option3_element = document.createElement("input");
-    let option3_label = document.createElement("label");
-    option3_label.setAttribute("for", "option3");
-    option3_label.innerHTML = question_obj[q].option[2];
-    input_attribute = {
-        type: "radio",
-        name: "choice",
-        id: "option3",
-        class: "option",
-        value: question_obj[q].option[2],
-    }
-    set_attribute(option3_element, input_attribute);
-
-    let option4_element = document.createElement("input");
-    let option4_label = document.createElement("label");
-    option4_label.setAttribute("for", "option4");
-    option4_label.innerHTML = question_obj[q].option[3];
-    input_attribute = {
-        type: "radio",
-        name: "choice",
-        id: "option4",
-        class: "option",
-        value: question_obj[q].option[3],
-    }
-    set_attribute(option4_element, input_attribute);
-
-    form_element.append(option1_element);
-    form_element.append(option1_label);
-    form_element.append(option2_element);
-    form_element.append(option2_label);
-    form_element.append(option3_element);
-    form_element.append(option3_label);
-    form_element.append(option4_element);
-    form_element.append(option4_label);
-    question_box.appendChild(p_element);
-    question_box.appendChild(form_element);
-
-    display_button(q);
+    create_question(q);
 
     previous_btn.addEventListener("click", () => {
         q--;
-        question_func(q);
+        create_question(q);
     });
     
     next_btn.addEventListener("click", () => {
@@ -161,10 +137,11 @@ let question_func = (q) => {
                 answer_obj.push(value);
             }
         });
-        question_func(q);
+        create_question(q);
     });
 
     submit_btn.addEventListener("click", () => {
+        q++;
         let options = document.querySelectorAll(".option");
         options.forEach(e => {
             if(e.checked) {
@@ -219,6 +196,8 @@ let submit_func = () => {
     let res_display = document.querySelector(".res_display");
     res_display.innerHTML = "";
     res_display.innerHTML = res_score*10+"%";
+
+    stop_timer();
 }
 /*--------- submit end --------- */
 
